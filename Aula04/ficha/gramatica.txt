@@ -1,0 +1,78 @@
+start : "main()" "{" operacoes "}"
+
+operacoes : decls atrib
+
+decls : "int" id ("[" INT "]")? ";" decls*
+
+atrib : atrib tipo_atrib
+      | 
+
+tipo_atrib : chamada ";" 
+           | atr ";"
+           | cond elses
+           | ciclo
+           | comment
+
+comment : "/" STRING "/"
+
+ciclo : "for" "(" id "=" INT ")" "do" "{" atrib "}"
+
+cond : "if" "(" logica ")" "{" atrib "}"
+
+elses : "else" "{" atrib "}"
+     | 
+
+logica : valor op_logica valor
+
+op_logica : "=="
+          | "<"
+          | "<="
+          | ">" 
+          | ">="
+          | "!="
+
+atr : id cauda_array "=" cauda_atr
+
+cauda_atr : chamada
+          | expressao
+
+expressao : expressao cauda_expr
+          | termo
+
+cauda_expr : "-" termo
+           | "+" termo
+
+termo : termo cauda_termo
+      | factor
+
+cauda_termo : "*" factor
+            | "/" factor
+            | "%" factor
+ 
+factor : "(" expressao ")"
+       | valor
+
+
+chamada : funcao "(" argumentos ")"
+
+argumentos: STRING 
+          | valor 
+          | 
+
+funcao : "print"
+       | "input"
+
+id : "a".."z" (WORD | INT | "_")* 
+
+valor : INT | id cauda_array
+
+cauda_array : "[" INT "]"
+            | 
+
+STRING : ESCAPED_STRING
+
+%import common.WS
+%ignore WS
+%import common.INT
+%import common.WORD
+%import common.ESCAPED_STRING

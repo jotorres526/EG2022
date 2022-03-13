@@ -1,0 +1,25 @@
+main() {
+    int x1;
+    int x2;
+    int x3;
+    int x4;
+
+    x1 = input();
+    x2 = input();
+    x3 = input();
+    x4 = input();
+    
+    if (x1 == x2) {
+        if(x1 == x3) {
+            if(x1 == x4){
+                print("Quadrado");
+            } else {
+                print("Nao Quadrado");
+            }
+        } else {
+            print("Nao Quadrado");
+        }
+    } else {
+        print("Nao Quadrado");
+    }
+}

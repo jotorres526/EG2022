@@ -1,0 +1,76 @@
+Ex 1: A gramática apresentada privilegia a clareza, pois as produções foram escritas de modo a tentar abstrair o máximo de detalhe possível
+
+start: "(" capa "," paginas "," contracapa ")"
+
+capa: "(" titulo "," autor "," data_abertura ")"
+
+autor: WORD (WORD)*
+data_abertura: data
+
+paginas: pagina+
+pagina: separador
+      | folha
+
+separador: titulo
+folha: fotografia+
+fotografia: nome_ficheiro legenda
+nome_ficheiro: String
+legenda: String
+contracapa: texto_fecho data_conclusão
+texto_fecho: String+
+data_conclusão: data
+
+titulo: String
+
+data: dia "-" mes "-" ano 
+dia: ("0"..."2") ("0"..."9") | "30" | "31"
+mes: "0" ("1"..."9") | "1" ("0"..."2")
+ano: NUM
+
+----------------------------------------------
+Ex 2.a:
+
+class MyInterpreter(Interpreter):
+    def __init__(self):
+        self.valor = 0
+        self.num_mov = 0
+        self.lista_deb = []
+        self.ultima_data = "00000000"
+
+    def start(self, tree):
+        r = self.visit(tree.children())
+
+    def Movimentos(self, tree):
+        r = self.visit(tree.children())
+    
+    def Move(self, tree):
+        self.num_mov += 1
+        r = tree.children[2]
+        if (r.data == "DEBITO"):
+            self.lista_deb.add(tree.children[1])
+        tree.children[3]
+        r = tree.children[0]
+        if r == 1:
+            print("Erro, conta: ", tree.children[1])
+
+    def Quantia(self, tree):
+        self.valor += int(tree.children[0])
+
+    def CntDestino(self, tree):
+        return str(tree.children[0])
+
+    def Data(self, tree):
+        res = 0
+        data = str(tree.children[0])
+        if self.ultima_data < data:
+            print("Erro data ", data)
+            res = 1
+        self.ultima_data = data
+        return res
+        
+
+
+
+    
+
+
